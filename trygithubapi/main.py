@@ -1,6 +1,22 @@
 import os
 from github import Github
 
+def get_version_and_tag_name():
+    "バージョン名とタグ名を作る"
+    major = 1
+    minor = 0
+    patch = 0
+    with open("app/build.gradle") as f:
+        for line in f.readlines():
+            if(line.startswith("def major = ")):
+                major = int(line.split()[-1])
+            if(line.startswith("def minor = ")):
+                minor = int(line.split()[-1])
+            if(line.startswith("def patch = ")):
+                patch = int(line.split()[-1])
+    version_name = "%d.%d.%d" % (major,minor,patch)
+    tag_name = "release_%d_%d_%d" % (major,minor,patch)
+    return version_name, tag_name
 
 def main():
     # アクセストークンを持ってGithubオブジェクトを作成
@@ -28,3 +44,5 @@ def main():
     tags = repo.get_tags()
     for tag in tags:
         print("%s %s" % (tag.name, tag.commit.commit.sha))
+    # バージョンを取得
+    print(get_version_and_tag_name())
