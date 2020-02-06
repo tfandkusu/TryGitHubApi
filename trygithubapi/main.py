@@ -25,9 +25,10 @@ def main():
     g = Github(access_token)
     # リポジトリを取得
     gr = g.get_user().get_repo("quickecho")
+    # Organizationを使っている場合
+    # gr = g.get_organization("organization_name").get_repo("repository_name")
     # インスタンスにする
     r = Repository(gr)
     # masterブランチにマージ済みプルリク一覧テキストを作成する
     text = r.make_marged_prs()
     print(text)
-    
