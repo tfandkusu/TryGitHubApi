@@ -12,10 +12,14 @@ class Repository:
         commits = self.get_commits(tag.commit.commit.sha)
         numbers = self.get_marged_pr_numbers(commits)
         prs = self.get_prs_in_numbers(numbers)
+        reverts = self.get_revert_pr_numbers(commits)
+        rprs = self.get_prs_in_numbers(reverts)
         # テキストを作成する
         text = ""
         for pr in prs:
             text += "- %s #%d\n" % (pr.title, pr.number)
+        for pr in rprs:
+            text += "- Revert %s #%d\n" % (pr.title, pr.number)
         return text
 
     def get_latest_release_tag(self):
@@ -48,6 +52,17 @@ class Repository:
             if(message.startswith("Merge pull request #")):
                 items = message.split()
                 number = int(items[3][1:])
+                numbers.append(number)
+        return numbers
+
+    def get_revert_pr_numbers(self, commits):
+        "コミット一覧からリバートされたプルリク番号を得る"
+        numbers = []
+        for commit in commits:
+            message = commit.message
+            if(message.startswith("Revert \"Merge pull request #")):
+                items = message.split()
+                number = int(items[4][1:])
                 numbers.append(number)
         return numbers
 
