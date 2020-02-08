@@ -20,6 +20,8 @@ def get_version_and_tag_name():
     return version_name, tag_name
 
 def main():
+    # バージョン名とタグ名を作る
+    version_name, tag_name = get_version_and_tag_name()
     # アクセストークンを持ってGithubオブジェクトを作成
     access_token = os.environ['BITRISEIO_GITHUB_API_ACCESS_TOKEN']
     g = Github(access_token)
@@ -32,3 +34,5 @@ def main():
     # masterブランチにマージ済みプルリク一覧テキストを作成する
     text = r.make_marged_prs()
     print(text)
+    # git releaseを作成する
+    r.create_release(tag_name, version_name, text)

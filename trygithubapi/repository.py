@@ -22,6 +22,9 @@ class Repository:
             text += "- Revert %s #%d\n" % (pr.title, pr.number)
         return text
 
+    def create_release(self, tag_name, version_name, text):
+        self.repo.create_git_release(tag_name, version_name, text)
+
     def get_latest_release_tag(self):
         "一番新しいリリースタグを取得する"
         tags = self.repo.get_tags()

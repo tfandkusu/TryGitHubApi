@@ -6,7 +6,7 @@ apply plugin: 'io.fabric'
 
 def major = 1
 def minor = 3
-def patch = 1
+def patch = 2
 
 
 android {
