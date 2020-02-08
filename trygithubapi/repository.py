@@ -23,6 +23,7 @@ class Repository:
         return text
 
     def create_release(self, tag_name, version_name, text):
+        "リリースノートを作成する"
         self.repo.create_git_release(tag_name, version_name, text)
 
     def get_latest_release_tag(self):
